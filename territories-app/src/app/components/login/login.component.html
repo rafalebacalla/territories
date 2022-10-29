@@ -1,37 +1,48 @@
 <div>
-    <div class="login-container">
-        <h1> Login </h1>
-        <form class="login-form" [formGroup]="loginForm" (submit)="submitLoginForm()">
+  <div class="login-container">
+    <h1>Login</h1>
+    <form
+      class="login-form"
+      [formGroup]="loginForm"
+      (submit)="submitLoginForm()"
+    >
+      <mat-form-field>
+        <input
+          matInput
+          placeholder="Username"
+          formControlName="username"
+          autocomplete="username"
+          required
+        />
+        <mat-icon matSuffix>username</mat-icon>
 
-            <mat-form-field>
-                <input matInput placeholder="Username"
-                                formControlName="username" 
-                                autocomplete="username" 
-                                required>
-                <mat-icon matSuffix>username</mat-icon>
+        <mat-error *ngFor="let validation of loginValidation.username">
+          <mat-error
+            *ngIf="loginForm.get('username').hasError(validation.type)"
+          >
+            {{ validation.message }}
+          </mat-error>
+        </mat-error>
+      </mat-form-field>
 
-                <mat-error *ngFor="let validation of loginValidation.username">
-                    <mat-error    
-                    *ngIf="loginForm.get('username').hasError(validation.type)">
-                    {{validation.message}}
-                    </mat-error>
-                </mat-error>
-            </mat-form-field>
+      <mat-form-field>
+        <input
+          matInput
+          placeholder="Password"
+          type="password"
+          formControlName="password"
+          required
+        />
 
-            <mat-form-field>
-                <input matInput placeholder="Password"
-                                type="password" 
-                                formControlName="password" 
-                                required>
-
-                <mat-error *ngFor="let validation of loginValidation.password">
-                    <mat-error    
-                    *ngIf="loginForm.get('password').hasError(validation.type)">
-                    {{validation.message}}
-                    </mat-error>
-                </mat-error>
-            </mat-form-field>
-            <button mat-raised-button type="submit" color="primary">Login</button>
-        </form>
-    </div>
+        <mat-error *ngFor="let validation of loginValidation.password">
+          <mat-error
+            *ngIf="loginForm.get('password').hasError(validation.type)"
+          >
+            {{ validation.message }}
+          </mat-error>
+        </mat-error>
+      </mat-form-field>
+      <button mat-raised-button type="submit" color="primary">Login</button>
+    </form>
+  </div>
 </div>

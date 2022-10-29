@@ -11,7 +11,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { LoginComponent } from './components/login/login.component';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [AppComponent, LoginComponent],
@@ -25,7 +25,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     MatFormFieldModule,
     MatInputModule,
     ReactiveFormsModule,
-    MatSnackBarModule
+    MatSnackBarModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
