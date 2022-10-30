@@ -13,6 +13,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { LoginComponent } from './components/login/login.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { HomepageComponent } from './components/homepage/homepage.component';
+import { MatTreeModule } from '@angular/material/tree';
 
 @NgModule({
   declarations: [AppComponent, LoginComponent, HomepageComponent],
@@ -27,6 +28,7 @@ import { HomepageComponent } from './components/homepage/homepage.component';
     MatInputModule,
     ReactiveFormsModule,
     MatSnackBarModule,
+    MatTreeModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
