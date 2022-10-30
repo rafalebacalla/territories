@@ -5,6 +5,8 @@ import { DummyApi } from 'src/app/utils/DummyApi';
 import { transformTerritories } from 'src/app/utils/Utils';
 import { Territories } from 'src/app/models/territories';
 import { FlatTreeNode } from 'src/app/models/flatTreeNode';
+import { isLoggedIn } from 'src/app/utils/AuthChecker';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-homepage',
   templateUrl: './homepage.component.html',
@@ -37,7 +39,9 @@ export class HomepageComponent implements OnInit {
 
   dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
-  constructor() {}
+  constructor(private router: Router) {
+    if (!isLoggedIn()) this.router.navigate(['account/login']);
+  }
 
   hasChild = (_: number, node: FlatTreeNode) => node.expandable;
 

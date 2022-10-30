@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { isLoggedIn } from 'src/app/utils/AuthChecker';
 import { DummyApi } from 'src/app/utils/DummyApi';
 
 @Component({
@@ -27,7 +28,9 @@ export class LoginComponent implements OnInit {
   constructor(
     private snackBar: MatSnackBar,
     private router: Router
-    ) {}
+    ) {
+      if (isLoggedIn()) this.router.navigate(['']);
+    }
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
@@ -64,6 +67,7 @@ export class LoginComponent implements OnInit {
       this.snackBar.open('Login Failed');
     } else {
       this.snackBar.open('Login Successful');
+      localStorage.setItem('user', JSON.stringify(result));
       this.router.navigate(['']);
     }
   }
