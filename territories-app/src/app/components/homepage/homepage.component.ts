@@ -69,7 +69,6 @@ export class HomepageComponent implements OnInit {
   constructor() {
     this.rawData = DummyApi.getTerritories();
     this.transformedData = transformTerritories(this.rawData);
-    console.log("this.transformedData", this.transformedData)
     this.dataSource.data = this.transformedData;
   }
 

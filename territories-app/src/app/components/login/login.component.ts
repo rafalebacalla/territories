@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { DummyApi } from 'src/app/utils/DummyApi';
 
 @Component({
   selector: 'app-login',
@@ -37,7 +38,7 @@ export class LoginComponent implements OnInit {
 
   setError(errorCode: number): void {
     switch (errorCode) {
-      case 401:
+      case 404:
         this.loginForm.controls['password'].setErrors({ incorrect: true });
         this.loginForm.controls['username'].setErrors({ incorrect: true });
         break;
@@ -56,39 +57,14 @@ export class LoginComponent implements OnInit {
     let username = this.loginForm.controls.username.value;
     let password = this.loginForm.controls.password.value;
 
-    const result: any = this.callDummyApi(username, password);
+    const result: any = DummyApi.login(username, password);
     
-    if (!!result.error) {
-      this.setError(result.error.code);
+    if (!!result.message) {
+      this.setError(404);
       this.snackBar.open('Login Failed');
     } else {
       this.snackBar.open('Login Successful');
       this.router.navigate(['']);
-    }
-  }
-
-  callDummyApi(username: string, password: string): any {
-    if (username === 'foo' && password === 'bar') {
-      return {
-        result: {
-          status: 'OK',
-          code: 200,
-          message: 'Login successful',
-          data: {
-            username: "foo",
-            displayName: "Foo",
-            roles: []
-          }
-        },
-      };
-    } else {
-      return {
-        error: {
-          status: 'Unauthenticated',
-          code: 401,
-          message: 'Incorrect credentials',
-        },
-      };
     }
   }
 }

@@ -5,7 +5,7 @@ export function transformTerritories(raw: { data: any[] }): any {
   let transformedData: any[] = [];
 
   rawData.forEach((territory) => {
-    if (territory.parent === null) {
+    if (!territory.parent) {
       transformedData.push(transFormTerritory(rawData, territory));
     }
   });
@@ -34,7 +34,6 @@ function findChildren(rawData: any[], parent: any) {
       children.push(transFormTerritory(rawData, territory));
     }
   });
-  if (!children.length) return;
 
   return children;
 }

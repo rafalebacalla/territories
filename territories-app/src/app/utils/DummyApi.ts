@@ -1,4 +1,18 @@
 export class DummyApi {
+  static login(username: string, password: string): any {
+    if (username === 'foo' && password === 'bar') {
+      return {
+        username: 'foo',
+        displayName: 'Foo Bar Foo',
+        roles: ['basic-user'],
+      };
+    } else {
+      return {
+        message: 'Invalid username or password.',
+      };
+    }
+  }
+
   static getTerritories(): any {
     return {
       data: [
