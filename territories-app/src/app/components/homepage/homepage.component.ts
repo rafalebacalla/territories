@@ -5,35 +5,6 @@ import { DummyApi } from 'src/app/utils/DummyApi';
 import { transformTerritories } from 'src/app/utils/Utils';
 import { Territories } from 'src/app/models/territories';
 import { FlatTreeNode } from 'src/app/models/flatTreeNode';
-
-
-const TREE_DATA: Territories[] = [
-  {
-    name: 'Western Visayas',
-    children: [
-      {
-        name: 'Negros Occidental',
-        children: [
-          {name: 'Bacolod'}
-        ]
-      }
-    ]
-  },
-  {
-    name: 'Central Visayas',
-    children: [
-      {
-        name: 'Cebu',
-        children: [{name: 'Cebu City'}, {name: 'Lapu-Lapu'}],
-      },
-      {
-        name: 'Bohol',
-        children: [{name: 'Tagbilaran'}, {name: 'Panglao'}],
-      },
-    ],
-  },
-];
-
 @Component({
   selector: 'app-homepage',
   templateUrl: './homepage.component.html',
@@ -41,8 +12,8 @@ const TREE_DATA: Territories[] = [
 })
 export class HomepageComponent implements OnInit {
 
-  rawData : any = undefined;
-  transformedData: any = undefined;
+  rawData : any = [];
+  transformedData: any = [];
 
   private _transformer = (node: Territories, level: number) => {
     return {
@@ -66,16 +37,13 @@ export class HomepageComponent implements OnInit {
 
   dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
-  constructor() {
+  constructor() {}
+
+  hasChild = (_: number, node: FlatTreeNode) => node.expandable;
+
+  async ngOnInit(): Promise<void> {
     this.rawData = DummyApi.getTerritories();
     this.transformedData = transformTerritories(this.rawData);
     this.dataSource.data = this.transformedData;
   }
-
-  hasChild = (_: number, node: FlatTreeNode) => node.expandable;
-
-  ngOnInit(): void {
-    
-  }
-
 }
