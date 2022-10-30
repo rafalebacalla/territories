@@ -14,9 +14,10 @@ import { LoginComponent } from './components/login/login.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { HomepageComponent } from './components/homepage/homepage.component';
 import { MatTreeModule } from '@angular/material/tree';
+import { ToolbarComponent } from './components/toolbar/toolbar.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, HomepageComponent],
+  declarations: [AppComponent, LoginComponent, HomepageComponent, ToolbarComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

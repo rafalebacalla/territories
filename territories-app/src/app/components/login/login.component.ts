@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { isLoggedIn } from 'src/app/utils/AuthChecker';
+import { DataService } from 'src/app/services/data.service';
 import { DummyApi } from 'src/app/utils/DummyApi';
 
 @Component({
@@ -13,6 +13,7 @@ import { DummyApi } from 'src/app/utils/DummyApi';
 export class LoginComponent implements OnInit {
   loginForm: any | undefined = undefined;
   errorMessage: string = '';
+  currentUser = false;
 
   loginValidation = {
     username: [
@@ -27,16 +28,18 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private snackBar: MatSnackBar,
-    private router: Router
-    ) {
-      if (isLoggedIn()) this.router.navigate(['']);
-    }
+    private router: Router,
+    private dataService: DataService
+    ) {}
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
       username: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required]),
     });
+
+    this.dataService.currentLoggedInUser.subscribe(currentUser => this.currentUser = currentUser);
+    if (!!this.currentUser) this.router.navigate(['']);
   }
 
   setError(errorCode: number): void {
@@ -67,7 +70,7 @@ export class LoginComponent implements OnInit {
       this.snackBar.open('Login Failed');
     } else {
       this.snackBar.open('Login Successful');
-      localStorage.setItem('user', JSON.stringify(result));
+      this.dataService.changeLoginStatus(result);
       this.router.navigate(['']);
     }
   }

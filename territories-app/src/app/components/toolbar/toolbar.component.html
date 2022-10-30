@@ -1,0 +1,8 @@
+<mat-toolbar color="primary">
+   <span>Territories</span>
+   <span class="spacer"></span>
+   <span>{{currentUser?.displayName}}</span>
+   <button mat-icon-button *ngIf="currentUser" (click)="logOut()">
+    <mat-icon>logout</mat-icon>
+  </button>
+ </mat-toolbar>
