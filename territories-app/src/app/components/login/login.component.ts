@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -12,11 +13,20 @@ export class LoginComponent implements OnInit {
   errorMessage: string = '';
 
   loginValidation = {
-    username: [{ type: 'required', message: 'Username is required' }],
-    password: [{ type: 'required', message: 'Password is required' }],
+    username: [
+      { type: 'required', message: 'Username is required' },
+      { type: 'incorrect', message: 'Wrong username' },
+    ],
+    password: [
+      { type: 'required', message: 'Password is required' },
+      { type: 'incorrect', message: 'Wrong password' },
+    ],
   };
 
-  constructor(private snackBar: MatSnackBar) {}
+  constructor(
+    private snackBar: MatSnackBar,
+    private router: Router
+    ) {}
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
@@ -25,10 +35,9 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  setError(errorCode: string): string {
-    let errorMessage: any = {};
+  setError(errorCode: number): void {
     switch (errorCode) {
-      case 'incorrect-details':
+      case 401:
         this.loginForm.controls['password'].setErrors({ incorrect: true });
         this.loginForm.controls['username'].setErrors({ incorrect: true });
         break;
@@ -36,7 +45,6 @@ export class LoginComponent implements OnInit {
         this.loginForm.controls['username'].setErrors({ incorrect: true });
         this.loginForm.controls['password'].setErrors({ incorrect: true });
     }
-    return errorMessage;
   }
 
   async submitLoginForm() {
@@ -49,22 +57,28 @@ export class LoginComponent implements OnInit {
     let password = this.loginForm.controls.password.value;
 
     const result: any = this.callDummyApi(username, password);
-
+    
     if (!!result.error) {
       this.setError(result.error.code);
       this.snackBar.open('Login Failed');
     } else {
       this.snackBar.open('Login Successful');
+      this.router.navigate(['']);
     }
   }
 
   callDummyApi(username: string, password: string): any {
-    if (username === 'user' && password === '1234') {
+    if (username === 'foo' && password === 'bar') {
       return {
         result: {
           status: 'OK',
           code: 200,
           message: 'Login successful',
+          data: {
+            username: "foo",
+            displayName: "Foo",
+            roles: []
+          }
         },
       };
     } else {
