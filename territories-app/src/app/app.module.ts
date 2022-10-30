@@ -17,7 +17,12 @@ import { MatTreeModule } from '@angular/material/tree';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, HomepageComponent, ToolbarComponent],
+  declarations: [
+    AppComponent,
+    LoginComponent,
+    HomepageComponent,
+    ToolbarComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,

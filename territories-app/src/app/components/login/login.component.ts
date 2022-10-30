@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
     private snackBar: MatSnackBar,
     private router: Router,
     private dataService: DataService
-    ) {}
+  ) {}
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
@@ -38,7 +38,9 @@ export class LoginComponent implements OnInit {
       password: new FormControl('', [Validators.required]),
     });
 
-    this.dataService.currentLoggedInUser.subscribe(currentUser => this.currentUser = currentUser);
+    this.dataService.currentLoggedInUser.subscribe(
+      (currentUser) => (this.currentUser = currentUser)
+    );
     if (!!this.currentUser) this.router.navigate(['']);
   }
 
@@ -64,7 +66,7 @@ export class LoginComponent implements OnInit {
     let password = this.loginForm.controls.password.value;
 
     const result: any = DummyApi.login(username, password);
-    
+
     if (!!result.message) {
       this.setError(404);
       this.snackBar.open('Login Failed');

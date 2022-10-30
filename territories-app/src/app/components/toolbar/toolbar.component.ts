@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { isLoggedIn } from 'src/app/utils/AuthChecker';
 import { Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
 
