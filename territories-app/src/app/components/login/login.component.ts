@@ -44,21 +44,15 @@ export class LoginComponent implements OnInit {
     if (!!this.currentUser) this.router.navigate(['']);
   }
 
-  setError(errorCode: number): void {
-    switch (errorCode) {
-      case 404:
-        this.loginForm.controls['password'].setErrors({ incorrect: true });
-        this.loginForm.controls['username'].setErrors({ incorrect: true });
-        break;
-      default:
-        this.loginForm.controls['username'].setErrors({ incorrect: true });
-        this.loginForm.controls['password'].setErrors({ incorrect: true });
-    }
+  setError(): void {
+    this.loginForm.controls['password'].setErrors({ incorrect: true });
+    this.loginForm.controls['username'].setErrors({ incorrect: true });
   }
 
   async submitLoginForm() {
     if (this.loginForm.status === 'INVALID') {
       this.snackBar.open('Invalid details');
+      this.loginForm.reset();
       return;
     }
 
@@ -68,8 +62,9 @@ export class LoginComponent implements OnInit {
     const result: any = DummyApi.login(username, password);
 
     if (!!result.message) {
-      this.setError(404);
       this.snackBar.open('Login Failed');
+      this.loginForm.reset();
+      this.setError();
     } else {
       this.snackBar.open('Login Successful');
       this.dataService.changeLoginStatus(result);
