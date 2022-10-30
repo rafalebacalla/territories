@@ -1,6 +1,8 @@
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { Component, OnInit } from '@angular/core';
 import {MatTreeFlatDataSource, MatTreeFlattener} from '@angular/material/tree';
+import { DummyApi } from 'src/app/utils/DummyApi';
+import { Utils } from 'src/app/utils/Utils';
 
 interface Territories {
   name: string;
@@ -47,6 +49,9 @@ interface ExampleFlatNode {
 })
 export class HomepageComponent implements OnInit {
 
+  rawData : any = undefined;
+  transformedData: any = undefined;
+
   private _transformer = (node: Territories, level: number) => {
     return {
       expandable: !!node.children && node.children.length > 0,
@@ -76,10 +81,8 @@ export class HomepageComponent implements OnInit {
   hasChild = (_: number, node: ExampleFlatNode) => node.expandable;
 
   ngOnInit(): void {
-  }
-
-  callDummyApi() {
-
+    this.rawData = DummyApi.getTerritories();
+    this.transformedData = Utils.transformTerritories(this.rawData);
   }
 
 }
