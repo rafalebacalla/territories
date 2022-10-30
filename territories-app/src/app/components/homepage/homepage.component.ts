@@ -2,12 +2,10 @@ import { FlatTreeControl } from '@angular/cdk/tree';
 import { Component, OnInit } from '@angular/core';
 import {MatTreeFlatDataSource, MatTreeFlattener} from '@angular/material/tree';
 import { DummyApi } from 'src/app/utils/DummyApi';
-import { Utils } from 'src/app/utils/Utils';
+import { transformTerritories } from 'src/app/utils/Utils';
+import { Territories } from 'src/app/models/territories';
+import { FlatTreeNode } from 'src/app/models/flatTreeNode';
 
-interface Territories {
-  name: string;
-  children?: Territories[];
-}
 
 const TREE_DATA: Territories[] = [
   {
@@ -36,12 +34,6 @@ const TREE_DATA: Territories[] = [
   },
 ];
 
-interface ExampleFlatNode {
-  expandable: boolean;
-  name: string;
-  level: number;
-}
-
 @Component({
   selector: 'app-homepage',
   templateUrl: './homepage.component.html',
@@ -60,7 +52,7 @@ export class HomepageComponent implements OnInit {
     };
   };
 
-  treeControl = new FlatTreeControl<ExampleFlatNode>(
+  treeControl = new FlatTreeControl<FlatTreeNode>(
     node => node.level,
     node => node.expandable,
   );
@@ -75,14 +67,16 @@ export class HomepageComponent implements OnInit {
   dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
   constructor() {
-    this.dataSource.data = TREE_DATA;
+    this.rawData = DummyApi.getTerritories();
+    this.transformedData = transformTerritories(this.rawData);
+    console.log("this.transformedData", this.transformedData)
+    this.dataSource.data = this.transformedData;
   }
 
-  hasChild = (_: number, node: ExampleFlatNode) => node.expandable;
+  hasChild = (_: number, node: FlatTreeNode) => node.expandable;
 
   ngOnInit(): void {
-    this.rawData = DummyApi.getTerritories();
-    this.transformedData = Utils.transformTerritories(this.rawData);
+    
   }
 
 }
